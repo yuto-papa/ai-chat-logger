@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-electron/
+release/
+
+*.log
+
+# セッションログ・一時ファイル
+claude-session*.txt
+
+# テスト結果・カバレッジ
+coverage/
+playwright-report/
+test-results/
+
+# Playwright ブラウザキャッシュ
+.playwright/

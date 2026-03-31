@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Electron: Main Process",
+      "type": "node",
+      "request": "attach",
+      "port": 5858,
+      "restart": true,
+      "timeout": 20000,
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/dist-electron/**",
+        "!**/node_modules/**"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist-electron/**/*.js"
+      ],
+      "preLaunchTask": "Dev Server (Debug)",
+      "presentation": {
+        "group": "electron"
+      }
+    },
+    {
+      "name": "Electron: Renderer Process",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${workspaceFolder}/*"
+      },
+      "presentation": {
+        "group": "electron"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Electron: Full Debug",
+      "configurations": [
+        "Electron: Main Process",
+        "Electron: Renderer Process"
+      ],
+      "presentation": {
+        "order": 1
+      },
+      "stopAll": true
+    }
+  ]
+}
