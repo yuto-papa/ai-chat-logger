@@ -19,6 +19,7 @@ export interface TreeNode {
 export interface TreeData {
   name: string
   children: TreeNode[]
+  sessions?: NodeSessions
 }
 
 export interface TerminalEntry {
@@ -75,6 +76,8 @@ declare global {
       addRecentProject: (projectPath: string, projectName: string) => Promise<{ success: boolean }>
       onOutputFrom: (ptyId: string, callback: (data: string) => void) => () => void
       onExitFrom: (ptyId: string, callback: (exitCode: number) => void) => () => void
+      readLayout: (projectPath: string) => Promise<Record<string, { x: number; y: number }> | null>
+      writeLayout: (projectPath: string, layout: Record<string, { x: number; y: number }>) => Promise<void>
     }
   }
 }

@@ -62,7 +62,7 @@ describe('左右ペイントグル - 状態管理', () => {
 // ============================================================
 
 function makeNode(id: string, name: string, children: TreeNode[] = []): TreeNode {
-  return { id, name, expanded: false, summary: '', children, sessions: { claude: null, codex: null, gemini: null }, urls: [] }
+  return { id, name, expanded: false, summary: '', children, sessions: { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }, urls: [] }
 }
 
 function makeTree(name: string, children: TreeNode[] = []): TreeData {

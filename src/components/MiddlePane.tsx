@@ -227,7 +227,7 @@ export default function MiddlePane({
                       nodeId={nodeId}
                       projectPath={projectPath}
                       isActive={isActive}
-                      onResize={isActive ? handleTerminalResize : undefined}
+                      onResize={handleTerminalResize}
                     />
                   </div>
                 )

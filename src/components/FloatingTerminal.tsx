@@ -136,7 +136,11 @@ export default function FloatingTerminal({
           >×</button>
         </div>
       </div>
-      <div className="floating-terminal-body">
+      <div className="floating-terminal-body" onClick={(e) => {
+        // xterm にフォーカスを当てる（入力できない問題の対策）
+        const xtermEl = (e.currentTarget as HTMLElement).querySelector('.xterm-helper-textarea') as HTMLElement | null
+        xtermEl?.focus()
+      }}>
         {resizeOverlay && (
           <div className="terminal-resize-overlay">
             {resizeOverlay.cols} × {resizeOverlay.rows}

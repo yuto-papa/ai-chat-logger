@@ -70,7 +70,7 @@ const en = {
 
   // --- Lang toggle ---
   lang_toggle: 'JA',
-} as const
+}
 
 const ja: typeof en = {
   placeholder_folder_name: 'フォルダ名',
@@ -131,7 +131,7 @@ const ja: typeof en = {
   tooltip_hide: '非表示',
 
   lang_toggle: 'EN',
-} as const
+}
 
 export const translations = { en, ja }
 export type T = typeof en

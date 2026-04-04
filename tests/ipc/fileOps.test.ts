@@ -147,7 +147,7 @@ describe('createProject', () => {
   it('新規フォルダを作成し tree.json を初期化する', () => {
     const result = fileOps.createProject(tmpDir, 'MyProject')
     expect(result.success).toBe(true)
-    const treePath = path.join(result.projectPath, 'tree.json')
+    const treePath = path.join(result.projectPath!, 'tree.json')
     expect(fs.existsSync(treePath)).toBe(true)
     const tree = JSON.parse(fs.readFileSync(treePath, 'utf8'))
     expect(tree.name).toBe('MyProject')
@@ -183,7 +183,7 @@ describe('readTree / writeTree', () => {
   afterEach(() => { removeTmpDir(tmpDir) })
 
   it('writeTree で書き込んだデータを readTree で読み返せる', () => {
-    const data = { name: 'Test', children: [{ id: 'n1', name: 'Node1', expanded: false, summary: '', children: [], sessions: { claude: null, codex: null, gemini: null }, urls: [] }] }
+    const data = { name: 'Test', sessions: { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }, children: [{ id: 'n1', name: 'Node1', expanded: false, summary: '', children: [], sessions: { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }, urls: [] }] }
     fileOps.writeTree(tmpDir, data)
     const read = fileOps.readTree(tmpDir)
     expect(read).toEqual(data)

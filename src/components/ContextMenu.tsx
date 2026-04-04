@@ -73,14 +73,14 @@ export default function ContextMenu({
         }
       }
     } else if (inlineMode === 'save-copilot-url') {
-      if (treeData && node) {
-        const updated = setSessionId(treeData, node.id, 'copilot', name || null)
-        onUpdateTree(updated)
+      if (treeData) {
+        const targetId = node?.id ?? '__root__'
+        onUpdateTree(setSessionId(treeData, targetId, 'copilot', name || null))
       }
     } else if (inlineMode === 'save-perplexity-url') {
-      if (treeData && node) {
-        const updated = setSessionId(treeData, node.id, 'perplexity', name || null)
-        onUpdateTree(updated)
+      if (treeData) {
+        const targetId = node?.id ?? '__root__'
+        onUpdateTree(setSessionId(treeData, targetId, 'perplexity', name || null))
       }
     }
     onClose()
@@ -113,14 +113,14 @@ export default function ContextMenu({
 
   const handleOpenCopilot = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const saved = context.node?.sessions?.copilot
+    const saved = context.node?.sessions?.copilot ?? context.treeData?.sessions?.copilot
     window.electronAPI.openExternal(saved ?? 'https://copilot.microsoft.com/')
     onClose()
   }
 
   const handleOpenPerplexity = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const saved = context.node?.sessions?.perplexity
+    const saved = context.node?.sessions?.perplexity ?? context.treeData?.sessions?.perplexity
     window.electronAPI.openExternal(saved ?? 'https://www.perplexity.ai/')
     onClose()
   }
@@ -244,7 +244,7 @@ export default function ContextMenu({
         <div className="context-menu-item" onClick={handleLaunch('codex', null)}>{t.codex_open}</div>
         <div className="context-menu-item" onClick={handleLaunch('gemini', null)}>{t.gemini_open}</div>
         <div className="context-menu-sep" />
-        {node.sessions.copilot
+        {node.sessions?.copilot
           ? <>
             <div className="context-menu-item" onClick={handleOpenCopilot}>{t.copilot_resume_thread}</div>
             <div className="context-menu-item" onClick={startInline('save-copilot-url', '', node.sessions.copilot ?? '')}>{t.copilot_change_url}</div>
@@ -254,7 +254,7 @@ export default function ContextMenu({
             <div className="context-menu-item" onClick={startInline('save-copilot-url', 'https://copilot.microsoft.com/chats/...')}>{t.copilot_save_url}</div>
           </>
         }
-        {node.sessions.perplexity
+        {node.sessions?.perplexity
           ? <>
             <div className="context-menu-item" onClick={handleOpenPerplexity}>{t.perplexity_resume_thread}</div>
             <div className="context-menu-item" onClick={startInline('save-perplexity-url', '', node.sessions.perplexity ?? '')}>{t.perplexity_change_url}</div>
@@ -282,15 +282,37 @@ export default function ContextMenu({
         <div className="context-menu-item" onClick={handleShowInExplorer}>{t.show_in_explorer}</div>
       </>)}
 
-      {type === 'root-node' && (<>
-        <div className="context-menu-item" onClick={handleLaunchRoot('claude')}>{t.claude_open}</div>
-        <div className="context-menu-item" onClick={handleLaunchRoot('codex')}>{t.codex_open}</div>
-        <div className="context-menu-item" onClick={handleLaunchRoot('gemini')}>{t.gemini_open}</div>
-        <div className="context-menu-item" onClick={handleOpenCopilot}>{t.copilot_open_browser}</div>
-        <div className="context-menu-item" onClick={handleOpenPerplexity}>{t.perplexity_open_browser}</div>
-        <div className="context-menu-separator" />
-        <div className="context-menu-item" onClick={startInline('add-node')}>{t.add_child_node}</div>
-      </>)}
+      {type === 'root-node' && (() => {
+        const rs = context.treeData?.sessions
+        return <>
+          <div className="context-menu-item" onClick={handleLaunchRoot('claude')}>{t.claude_open}</div>
+          <div className="context-menu-item" onClick={handleLaunchRoot('codex')}>{t.codex_open}</div>
+          <div className="context-menu-item" onClick={handleLaunchRoot('gemini')}>{t.gemini_open}</div>
+          <div className="context-menu-sep" />
+          {rs?.copilot
+            ? <>
+              <div className="context-menu-item" onClick={handleOpenCopilot}>{t.copilot_resume_thread}</div>
+              <div className="context-menu-item" onClick={startInline('save-copilot-url', '', rs.copilot)}>{t.copilot_change_url}</div>
+            </>
+            : <>
+              <div className="context-menu-item" onClick={handleOpenCopilot}>{t.copilot_open_browser}</div>
+              <div className="context-menu-item" onClick={startInline('save-copilot-url', 'https://copilot.microsoft.com/chats/...')}>{t.copilot_save_url}</div>
+            </>
+          }
+          {rs?.perplexity
+            ? <>
+              <div className="context-menu-item" onClick={handleOpenPerplexity}>{t.perplexity_resume_thread}</div>
+              <div className="context-menu-item" onClick={startInline('save-perplexity-url', '', rs.perplexity)}>{t.perplexity_change_url}</div>
+            </>
+            : <>
+              <div className="context-menu-item" onClick={handleOpenPerplexity}>{t.perplexity_open_browser}</div>
+              <div className="context-menu-item" onClick={startInline('save-perplexity-url', 'https://www.perplexity.ai/s/...')}>{t.perplexity_save_url}</div>
+            </>
+          }
+          <div className="context-menu-sep" />
+          <div className="context-menu-item" onClick={startInline('add-node')}>{t.add_child_node}</div>
+        </>
+      })()}
     </div>
   )
 }

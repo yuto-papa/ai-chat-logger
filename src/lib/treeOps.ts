@@ -38,7 +38,16 @@ export function deleteNode(tree: TreeData, nodeId: string): TreeData {
   return { ...tree, children: walk(tree.children) }
 }
 
-export function setSessionId(tree: TreeData, nodeId: string, tool: string, sessionId: string): TreeData {
+export function setSessionId(tree: TreeData, nodeId: string, tool: string, sessionId: string | null): TreeData {
+  if (nodeId === '__root__') {
+    return {
+      ...tree,
+      sessions: {
+        ...(tree.sessions ?? { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }),
+        [tool]: sessionId,
+      },
+    }
+  }
   const walk = (node: TreeNode): TreeNode => {
     if (node.id === nodeId) return { ...node, sessions: { ...node.sessions, [tool]: sessionId } }
     return { ...node, children: node.children.map(walk) }

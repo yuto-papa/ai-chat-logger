@@ -1,8 +1,8 @@
-export function moveNode(tree: import('./types').TreeData, nodeId: string, newParentId: string): import('./types').TreeData {
-  let movedNode: import('./types').TreeNode | null = null
+export function moveNode(tree: import('../types').TreeData, nodeId: string, newParentId: string): import('../types').TreeData {
+  let movedNode: import('../types').TreeNode | null = null
 
-  const removeNode = (nodes: import('./types').TreeNode[]): import('./types').TreeNode[] =>
-    nodes.reduce<import('./types').TreeNode[]>((acc, n) => {
+  const removeNode = (nodes: import('../types').TreeNode[]): import('../types').TreeNode[] =>
+    nodes.reduce<import('../types').TreeNode[]>((acc, n) => {
       if (n.id === nodeId) {
         movedNode = { ...n }
         return acc
@@ -10,7 +10,7 @@ export function moveNode(tree: import('./types').TreeData, nodeId: string, newPa
       return [...acc, { ...n, children: removeNode(n.children) }]
     }, [])
 
-  const addToParent = (nodes: import('./types').TreeNode[]): import('./types').TreeNode[] =>
+  const addToParent = (nodes: import('../types').TreeNode[]): import('../types').TreeNode[] =>
     nodes.map(n => {
       if (n.id === newParentId) {
         return { ...n, expanded: true, children: [...n.children, movedNode!] }

@@ -9,7 +9,7 @@ function makeTree(overrides: Partial<TreeData> = {}): TreeData {
 }
 
 function makeNode(id: string, name: string, children: TreeNode[] = []): TreeNode {
-  return { id, name, expanded: false, summary: '', children, sessions: { claude: null, codex: null, gemini: null }, urls: [] }
+  return { id, name, expanded: false, summary: '', children, sessions: { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }, urls: [] }
 }
 
 // ============================================================

@@ -81,15 +81,27 @@ export default function App() {
     })
   }, [terminals, terminalModes])
 
+  // pty 終了済みノードのセット（再起動を許可するため）
+  const exitedNodes = useRef<Set<string>>(new Set())
+
   const launchCLI = useCallback(async (nodeId: string, tool: string, sessionId?: string | null, cwd?: string) => {
     const ptyId = `${nodeId}-${tool}`
 
-    // 同じターミナルが既にある場合はモードをタブに戻してアクティブ化
+    // 同じターミナルが既にある場合
     if (terminals[nodeId]?.ptyId === ptyId) {
-      setTerminalModes(prev => ({ ...prev, [nodeId]: 'tab' }))
-      setActiveTerminalId(ptyId)
-      setSelectedNodeId(nodeId)
-      return
+      // pty が終了済みならエントリを削除して再起動フローへ進む
+      if (exitedNodes.current.has(nodeId)) {
+        exitedNodes.current.delete(nodeId)
+        setTerminals(prev => { const n = { ...prev }; delete n[nodeId]; return n })
+        setTerminalModes(prev => { const n = { ...prev }; delete n[nodeId]; return n })
+        // 下に落ちて新規起動
+      } else {
+        // まだ動いている場合はモードをタブに戻してアクティブ化
+        setTerminalModes(prev => ({ ...prev, [nodeId]: 'tab' }))
+        setActiveTerminalId(ptyId)
+        setSelectedNodeId(nodeId)
+        return
+      }
     }
 
     let command: string
@@ -112,6 +124,20 @@ export default function App() {
     setTerminalModes(prev => ({ ...prev, [nodeId]: 'tab' }))
     setActiveTerminalId(ptyId)
     setSelectedNodeId(nodeId)
+
+    // pty 終了を検知してエントリを自動削除
+    const removeExitListener = window.electronAPI.onExitFrom(ptyId, () => {
+      removeExitListener()
+      exitedNodes.current.add(nodeId)
+      // 3秒後に自動でターミナルを閉じる
+      setTimeout(() => {
+        if (!exitedNodes.current.has(nodeId)) return // 既に再起動済み
+        exitedNodes.current.delete(nodeId)
+        setTerminals(prev => { const n = { ...prev }; delete n[nodeId]; return n })
+        setTerminalModes(prev => { const n = { ...prev }; delete n[nodeId]; return n })
+        setActiveTerminalId(prev => prev === ptyId ? null : prev)
+      }, 3000)
+    })
   }, [projectPath, terminals])
 
   // ×: タブを非表示（ptyは継続）

@@ -16,7 +16,7 @@ type LayoutMap = Record<string, { x: number; y: number }>
 interface MindNodeData {
   label: string
   summary: string
-  sessions: { claude: string | null; codex: string | null; gemini: string | null }
+  sessions: { claude: string | null; codex: string | null; gemini: string | null; copilot: string | null; perplexity: string | null }
   hasTerminal: boolean
   isRoot?: boolean
   isDropTarget?: boolean
@@ -186,7 +186,7 @@ export default function MindMap({ projectPath, treeData, selectedNodeId, termina
       onShowContextMenu(e, { type: 'root-node', node: null, treeData })
     } else {
       const found = findNode(treeData, node.id)
-      const fallback: TreeNode = found ?? { id: node.id, name: node.data?.label ?? '', expanded: false, summary: '', children: [], sessions: { claude: null, codex: null, gemini: null }, urls: [] }
+      const fallback: TreeNode = found ?? { id: node.id, name: node.data?.label ?? '', expanded: false, summary: '', children: [], sessions: { claude: null, codex: null, gemini: null, copilot: null, perplexity: null }, urls: [] }
       onShowContextMenu(e, { type: 'node', node: fallback, treeData })
     }
   }, [treeData, onShowContextMenu])

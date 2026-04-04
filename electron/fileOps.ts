@@ -101,11 +101,40 @@ export function createProject(parentPath: string, name: string): ProjectResult {
   }
 }
 
+function migrateNode(node: any): any {
+  return {
+    ...node,
+    sessions: {
+      claude: node.sessions?.claude ?? null,
+      codex: node.sessions?.codex ?? null,
+      gemini: node.sessions?.gemini ?? null,
+      copilot: node.sessions?.copilot ?? null,
+      perplexity: node.sessions?.perplexity ?? null,
+    },
+    children: Array.isArray(node.children) ? node.children.map(migrateNode) : [],
+  }
+}
+
+function migrateTree(raw: any): TreeData {
+  return {
+    name: raw.name ?? '',
+    sessions: {
+      claude: raw.sessions?.claude ?? null,
+      codex: raw.sessions?.codex ?? null,
+      gemini: raw.sessions?.gemini ?? null,
+      copilot: raw.sessions?.copilot ?? null,
+      perplexity: raw.sessions?.perplexity ?? null,
+    },
+    children: Array.isArray(raw.children) ? raw.children.map(migrateNode) : [],
+  }
+}
+
 export function readTree(projectPath: string): TreeData | null {
   const treePath = path.join(projectPath, 'tree.json')
   if (!fs.existsSync(treePath)) return null
   try {
-    return JSON.parse(fs.readFileSync(treePath, 'utf8')) as TreeData
+    const raw = JSON.parse(fs.readFileSync(treePath, 'utf8'))
+    return migrateTree(raw)
   } catch {
     return null
   }
