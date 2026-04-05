@@ -18,8 +18,8 @@ export default function TempTerminal() {
 
     const term = new XTerm({
       theme: {
-        background: '#0d0d1a', foreground: '#cdd6f4', cursor: '#89b4fa',
-        selectionBackground: '#3a3a5c'
+        background: '#1e1e1e', foreground: '#cccccc', cursor: '#4ec9b0',
+        selectionBackground: '#264f78'
       },
       fontFamily: '"Cascadia Code", "Consolas", monospace',
       fontSize: 13,

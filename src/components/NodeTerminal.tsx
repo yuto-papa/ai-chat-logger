@@ -29,11 +29,11 @@ export default function NodeTerminal({ ptyId, isActive, onResize }: NodeTerminal
     if (!termRef.current) {
       const term = new XTerm({
         theme: {
-          background: '#0d0d1a', foreground: '#cdd6f4', cursor: '#89b4fa',
-          selectionBackground: '#3a3a5c',
-          black: '#45475a', red: '#f38ba8', green: '#a6e3a1',
-          yellow: '#f9e2af', blue: '#89b4fa', magenta: '#cba6f7',
-          cyan: '#89dceb', white: '#bac2de'
+          background: '#1e1e1e', foreground: '#cccccc', cursor: '#4ec9b0',
+          selectionBackground: '#264f78',
+          black: '#1e1e1e', red: '#f14c4c', green: '#4ec9b0',
+          yellow: '#cca700', blue: '#569cd6', magenta: '#c586c0',
+          cyan: '#4ec9b0', white: '#cccccc'
         },
         fontFamily: '"Cascadia Code", "Consolas", monospace',
         fontSize: 14,

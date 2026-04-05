@@ -5,19 +5,19 @@
 }
 
 :root {
-  --bg: #0d0d1a;
-  --surface: #0d0d1a;
-  --surface2: #0d0d1a;
-  --border: #2a2a3c;
-  --text: #cdd6f4;
-  --text-muted: #6c7086;
-  --accent: #89b4fa;
-  --accent-hover: #74c7ec;
-  --danger: #f38ba8;
-  --danger-hover: #eba0ac;
-  --success: #a6e3a1;
-  --yellow: #f9e2af;
-  --purple: #cba6f7;
+  --bg: #1e1e1e;
+  --surface: #252526;
+  --surface2: #2d2d30;
+  --border: #3c3c3c;
+  --text: #cccccc;
+  --text-muted: #858585;
+  --accent: #4ec9b0;
+  --accent-hover: #3bbfa0;
+  --danger: #f14c4c;
+  --danger-hover: #d73a3a;
+  --success: #4ec9b0;
+  --yellow: #cca700;
+  --purple: #c586c0;
 }
 
 body {
@@ -243,7 +243,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #0d0d1a;
+  background: var(--bg);
   padding: 4px;
 }
 
@@ -447,7 +447,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #0d0d1a;
+  background: var(--bg);
   flex-shrink: 0;
   position: relative;
 }
@@ -520,9 +520,9 @@ body {
   flex-shrink: 0;
 }
 
-.terminal-tab-icon.claude  { background: #d4a0f7; color: #1e1e2e; }
-.terminal-tab-icon.codex   { background: #89dceb; color: #1e1e2e; }
-.terminal-tab-icon.gemini  { background: #a6e3a1; color: #1e1e2e; }
+.terminal-tab-icon.claude  { background: #c586c0; color: #1e1e1e; }
+.terminal-tab-icon.codex   { background: #4ec9b0; color: #1e1e1e; }
+.terminal-tab-icon.gemini  { background: #dcdcaa; color: #1e1e1e; }
 
 .terminal-tab-label {
   overflow: hidden;
@@ -543,8 +543,8 @@ body {
 }
 
 .terminal-tab-close:hover {
-  background: rgba(243, 139, 168, 0.3);
-  color: #f38ba8;
+  background: rgba(241, 76, 76, 0.3);
+  color: var(--danger);
 }
 
 .terminal-tab-content {
@@ -836,9 +836,9 @@ body {
 }
 
 .mind-node.drop-target {
-  border: 2px dashed #f9e2af;
-  background: rgba(249, 226, 175, 0.15);
-  box-shadow: 0 0 10px rgba(249, 226, 175, 0.4);
+  border: 2px dashed var(--yellow);
+  background: rgba(204, 167, 0, 0.15);
+  box-shadow: 0 0 10px rgba(204, 167, 0, 0.4);
 }
 
 .context-inline-form {
@@ -990,7 +990,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 100;
   background: rgba(0, 0, 0, 0.75);
-  color: #cdd6f4;
+  color: var(--text);
   font-family: "Cascadia Code", "Consolas", monospace;
   font-size: 18px;
   font-weight: bold;
