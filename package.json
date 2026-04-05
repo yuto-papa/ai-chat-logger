@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "rebuild-pty": "electron-rebuild -f -w node-pty",
-    "postinstall": "electron-rebuild -f -w node-pty",
+    "postinstall": "node scripts/postinstall.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
